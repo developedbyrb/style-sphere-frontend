@@ -1,0 +1,64 @@
+.register-card-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10%;
+
+    .register-card {
+        width: 35%;
+
+        mat-card-header {
+            mat-card-title {
+                font-family: 'Montserrat', sans-serif;
+                font-size: xx-large;
+                margin-bottom: 1%;
+            }
+
+            mat-card-subtitle {
+                font-family: 'Montserrat', sans-serif;
+            }
+        }
+
+        mat-card-content {
+            margin-top: 2%;
+
+            .register-wrapper {
+                width: 100%;
+
+                .form-group {
+                    width: inherit;
+
+                    mat-form-field,
+                    button {
+                        width: inherit;
+                    }
+
+                    button {
+                        font-size: medium;
+                        height: 2.5rem;
+                    }
+
+                    .mat-form-field-invalid {
+                        margin-bottom: 1%;
+                    }
+                }
+            }
+        }
+
+        mat-card-actions {
+            width: 100%;
+            padding: 0 16px;
+
+            .register-card-bottom {
+                display: flex;
+                justify-content: space-between;
+                width: inherit;
+
+                a {
+                    color: #0000008A;
+                }
+            }
+        }
+    }
+
+}

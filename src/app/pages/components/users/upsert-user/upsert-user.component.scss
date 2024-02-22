@@ -1,0 +1,71 @@
+mat-card {
+    margin: 2%;
+    height: -webkit-fill-available;
+
+    .mat-elevation-z8 {
+        width: inherit;
+        height: inherit;
+        padding: 16px;
+
+        mat-card-header {
+            padding: 0px;
+            width: 100%;
+
+            ::ng-deep div {
+                width: 100%;
+
+                mat-card-title {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            }
+
+        }
+
+        app-file-upload,
+        .form-group {
+            width: 100%;
+            padding: 0px 6px;
+
+            mat-form-field {
+                width: 100%;
+            }
+        }
+
+        .mat-divider {
+            margin-bottom: 2%;
+        }
+
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+
+            button {
+                width: 49%;
+            }
+        }
+    }
+
+    .profile-lable {
+        color: var(--mdc-outlined-text-field-label-text-color);
+        font-family: var(--mdc-outlined-text-field-label-text-font);
+        font-size: var(--mdc-outlined-text-field-label-text-size);
+        font-weight: var(--mdc-outlined-text-field-label-text-weight);
+        letter-spacing: var(--mdc-outlined-text-field-label-text-tracking);
+    }
+}
+
+.form-group-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 0px 6px;
+    width: 100%;
+}
+
+.user-image-wrapper {
+    width: 50%;
+
+    img {
+        width: inherit;
+    }
+}

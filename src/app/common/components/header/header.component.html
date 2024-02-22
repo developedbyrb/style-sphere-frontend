@@ -1,0 +1,12 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button class="header-icon" aria-label="Example icon-button with menu icon" (click)="openSideNav()">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>Style Sphere</span>
+    <span class="spacer">
+    </span>
+    <button mat-button [matMenuTriggerFor]="menu">{{userName}}</button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="logout()">Log out</button>
+    </mat-menu>
+</mat-toolbar>

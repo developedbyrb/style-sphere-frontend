@@ -1,0 +1,15 @@
+<div class="files-preview">
+    <button type="button" mat-raised-button color="primary" (click)="onClick($event)">
+        <mat-icon>add</mat-icon>
+        {{chooseLabel}}
+    </button>
+    <input #fileUpload type="file" class="input_fileUpload--hidden" (change)="onFileSelected($event)"
+        [(ngModel)]="inputFileName" [accept]="accept">
+
+    <div class="files-preview files" *ngFor="let file of files">
+        <span>{{file.name}}</span>
+        <button mat-icon-button color="primary" [attr.title]="'remove'" (click)="removeFile(file)">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+</div>

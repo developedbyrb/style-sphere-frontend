@@ -1,0 +1,10 @@
+mat-card {
+    margin: 2%;
+    height: -webkit-fill-available;
+
+    .mat-elevation-z8 {
+        width: inherit;
+        height: inherit;
+        padding: 16px;
+    }
+}

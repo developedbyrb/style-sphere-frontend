@@ -1,0 +1,68 @@
+<section class="register-card-wrapper">
+    <mat-card class="register-card">
+        <mat-card-header>
+            <mat-card-title>
+                Register
+            </mat-card-title>
+            <mat-card-subtitle>Please fill your information below</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="registerForm" (submit)="userRegistration()">
+                <div class="register-wrapper">
+                    <div class="form-group">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Email</mat-label>
+                            <input matInput placeholder="Ex. pat@example.com" formControlName="email">
+                            <mat-error *ngIf="formData['email'].hasError('required')">
+                                Email is <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="form-group">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Password</mat-label>
+                            <input matInput [type]="hide ? 'password' : 'text'" placeholder="Enter your password"
+                                formControlName="password">
+                            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                                [attr.aria-pressed]="hide">
+                                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                            <mat-error *ngIf="formData['password'].hasError('required')">
+                                Password is <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="form-group">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Confirm Password</mat-label>
+                            <input matInput [type]="hide ? 'password' : 'text'" placeholder="Enter your password"
+                                formControlName="confirmPassword">
+                            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                                [attr.aria-pressed]="hide">
+                                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                            <mat-error *ngIf="formData['confirmPassword'].hasError('required')">
+                                Confirm password is <strong>required</strong>
+                            </mat-error>
+                            <mat-error *ngIf="formData['confirmPassword'].hasError('confirmPassword')">
+                                Password and Confirm Password must be <strong>same</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="form-group">
+                        <button mat-raised-button color="primary">Register</button>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+        <mat-card-actions>
+            <div class="register-card-bottom">
+                <span></span>
+                <a routerLink="/auth/login">Already have an account</a>
+            </div>
+        </mat-card-actions>
+    </mat-card>
+</section>

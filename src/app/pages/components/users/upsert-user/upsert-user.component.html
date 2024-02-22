@@ -1,0 +1,81 @@
+<mat-card>
+    <div class="mat-elevation-z8">
+        <mat-card-header>
+            <mat-card-title>
+                <div>
+                    {{isEdit ? 'Edit User Details': 'Create User'}}
+                </div>
+            </mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="card">
+                <form [formGroup]="userForm" (submit)="createUser()">
+                    <mat-grid-list cols="2" rowHeight="90px">
+                        <mat-grid-tile>
+                            <div class="form-group">
+                                <mat-form-field appearance="outline">
+                                    <mat-label for="name">Name</mat-label>
+                                    <input matInput placeholder="Enter your Name" formControlName="name">
+                                    <mat-error *ngIf="formData['name'].hasError('required')">
+                                        Name is <strong>required</strong>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                            <div class="form-group">
+                                <mat-form-field appearance="outline">
+                                    <mat-label for="email">Email</mat-label>
+                                    <input matInput placeholder="Ex. pat@example.com" formControlName="email">
+                                    <mat-error *ngIf="formData['email'].hasError('required')">
+                                        Email is <strong>required</strong>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                            <div class="form-group">
+                                <mat-form-field appearance="outline">
+                                    <mat-label for="role">Role</mat-label>
+                                    <mat-select formControlName="role">
+                                        <mat-option *ngFor="let role of rolesList" [value]="role.id">
+                                            {{ role.name }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="formData['role'].errors">
+                                        <span class="error-class" *ngIf="formData['role'].hasError('required')">
+                                            Role is <strong>required</strong></span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                            <div class="form-group-wrapper">
+                                <div class="form-group">
+                                    <mat-label class="profile-lable">Upload your avatar</mat-label>
+                                    <app-file-upload (uploadedFiles)="getFiles($event)" />
+                                </div>
+                                <ng-container *ngIf="isEdit && imageUrl">
+                                    <div class="user-image-wrapper">
+                                        <mat-label class="profile-lable">Uploaded avatar</mat-label>
+                                        <img [src]="imageUrl" alt="" />
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                            <div class="form-group form-footer">
+                                <button type="submit" mat-raised-button color="primary">
+                                    {{isEdit ? "Update ": "Create "}} User
+                                </button>
+                                <button type="button" mat-raised-button color="danger"
+                                    (click)="backToList()">Cancel</button>
+                            </div>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                </form>
+            </div>
+        </mat-card-content>
+    </div>
+</mat-card>
