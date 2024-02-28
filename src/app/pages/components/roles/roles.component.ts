@@ -31,7 +31,7 @@ interface Roles {
   styleUrls: ['./roles.component.scss']
 })
 export class RolesComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'name', 'created_at'];
+  displayedColumns: string[] = ['id', 'name', 'userCount', 'created_at'];
   dataSource = new MatTableDataSource<Roles>();
 
   constructor(private graphqlService: GraphqlService) { }

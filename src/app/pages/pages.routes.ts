@@ -13,16 +13,20 @@ export const routes: Routes = [
             },
             {
                 path: 'dashboard',
-                loadChildren: () => import('./components/dashboard/dashboard.route').then((module) => module.routes)
+                loadChildren: () => import('./components/dashboard/dashboard.routes').then((module) => module.routes)
             },
             {
                 path: 'users',
-                loadChildren: () => import('./components/users/users.route').then((module) => module.routes)
+                loadChildren: () => import('./components/users/users.routes').then((module) => module.routes)
             },
             {
                 path: 'roles',
-                loadChildren: () => import('./components/roles/roles.route').then((module) => module.routes)
+                loadChildren: () => import('./components/roles/roles.routes').then((module) => module.routes)
             },
+            {
+                path: 'products',
+                loadChildren: () => import('./components/products/products.routes').then(module => module.routes)
+            }
         ]
     },
 ];

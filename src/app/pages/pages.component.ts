@@ -38,6 +38,10 @@ export class PagesComponent implements OnDestroy {
     {
       name: "Roles",
       link: "roles"
+    },
+    {
+      name: "Products",
+      link: "products"
     }
   ];
 

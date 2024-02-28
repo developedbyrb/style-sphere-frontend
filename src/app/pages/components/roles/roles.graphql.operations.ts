@@ -6,6 +6,7 @@ const GET_ROLES = gql`
             data {
                 id
                 name
+                userCount
                 created_at
             }
         }
