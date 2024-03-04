@@ -10,15 +10,15 @@ export interface ModalData {
 }
 
 @Component({
-  selector: 'app-dailog',
+  selector: 'app-dialog',
   standalone: true,
   imports: [CommonModule, MatDialogModule, MatButtonModule],
-  templateUrl: './dailog.component.html',
-  styleUrls: ['./dailog.component.scss']
+  templateUrl: './dialog.component.html',
+  styleUrls: ['./dialog.component.scss']
 })
-export class DailogComponent {
+export class DialogComponent {
   constructor(
-    public dialogRef: MatDialogRef<DailogComponent>,
+    public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ModalData
   ) { }
 

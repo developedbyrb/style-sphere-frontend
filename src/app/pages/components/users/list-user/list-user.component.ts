@@ -7,15 +7,13 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { GET_FILE_PATH, GET_USERS, REMOVE_USER } from '../users.graphql.operations';
+import { GET_USERS, REMOVE_USER } from '../users.graphql.operations';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { DailogComponent } from 'src/app/common/components/dailog/dailog.component';
+import { DialogComponent } from 'src/app/common/components/dialog/dialog.component';
 import { GraphqlService } from 'src/app/common/services/graphql/graphql.service';
 import { MatChipsModule } from '@angular/material/chips';
-import { Apollo } from 'apollo-angular';
-import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -32,7 +30,7 @@ import { environment } from 'src/environments/environment';
     MatInputModule,
     MatIconModule,
     MatDialogModule,
-    DailogComponent,
+    DialogComponent,
     MatChipsModule
   ],
   templateUrl: './list-user.component.html',
@@ -43,8 +41,7 @@ export class ListUserComponent implements OnInit, AfterViewInit {
   constructor(
     private router: Router,
     public dialog: MatDialog,
-    private graphqlService: GraphqlService,
-    private apollo: Apollo
+    private graphqlService: GraphqlService
   ) { }
 
   displayedColumns: string[] = ['id', 'name', 'email', 'role', 'action'];
@@ -78,7 +75,7 @@ export class ListUserComponent implements OnInit, AfterViewInit {
           this.dataSource = usersData?.users?.data ?? [];
           this.totalData = usersData?.users?.paginatorInfo?.total ?? 0;
         },
-        error: err => console.error('Observable emitted an error: ' + err)
+        error: err => console.log('Observable emitted an error: ' + err.message)
       });
   }
 
@@ -93,7 +90,7 @@ export class ListUserComponent implements OnInit, AfterViewInit {
 
   openDialog(userDetails: any) {
     const customMessage = `You want to delete user ${userDetails.name}.`;
-    const dialogRef = this.dialog.open(DailogComponent, {
+    const dialogRef = this.dialog.open(DialogComponent, {
       data: { title: 'Are you sure?', message: customMessage, modalData: userDetails.id },
     });
 
