@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable, map } from 'rxjs';
 // @ts-ignore
-import isExtractableFile from 'extract-files/isExtractableFile.mjs';
+// import isExtractableFile from 'extract-files/isExtractableFile.mjs';
 
 @Injectable({
   providedIn: 'root'

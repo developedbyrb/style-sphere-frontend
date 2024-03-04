@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -14,8 +14,6 @@ import { CREATE_USERS, GET_USER_DETAILS } from '../users.graphql.operations';
 import { GraphqlService } from 'src/app/common/services/graphql/graphql.service';
 import { MatIconModule } from '@angular/material/icon';
 import { FileUploadComponent } from 'src/app/common/components/file-upload/file-upload.component';
-import { Apollo } from 'apollo-angular';
-import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -90,8 +88,6 @@ export class UpsertUserComponent implements OnInit {
     this.userForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(2), Validators.pattern('^[_A-z0-9]*((-|\s)*[_A-z0-9])*$')]],
       email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
-      // phoneNumber: [''], //[Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9]+$')]
-      // gender: [''],
       role: ['', [Validators.required]]
     });
   }

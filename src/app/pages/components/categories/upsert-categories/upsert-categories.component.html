@@ -3,14 +3,14 @@
         <mat-card-header>
             <mat-card-title>
                 <div>
-                    {{isEdit ? 'Edit': 'Create'}} Product
+                    {{isEdit ? 'Edit Category': 'Create Category'}}
                 </div>
             </mat-card-title>
         </mat-card-header>
         <mat-divider></mat-divider>
         <mat-card-content>
             <div class="card">
-                <form [formGroup]="productForm" (submit)="createProduct()">
+                <form [formGroup]="categoryForm" (submit)="createUser()">
                     <mat-grid-list cols="2" rowHeight="90px">
                         <mat-grid-tile>
                             <div class="form-group">
@@ -37,13 +37,13 @@
                         <mat-grid-tile>
                             <div class="form-group">
                                 <mat-form-field appearance="outline">
-                                    <mat-label for="purchase_price">Purchase Price</mat-label>
+                                    <mat-label for="price_start_from">Price Range (Starts From)</mat-label>
                                     <input matInput type="number" class="example-right-align" placeholder="0"
-                                        formControlName="purchase_price">
+                                        formControlName="price_start_from">
                                     <span matTextPrefix>&#x20B9; &nbsp;</span>
                                     <span matTextSuffix>.00</span>
-                                    <mat-error *ngIf="formData['purchase_price'].hasError('required')">
-                                        Purchase price is <strong>required</strong>
+                                    <mat-error *ngIf="formData['price_start_from'].hasError('required')">
+                                        Price range start from is <strong>required</strong>
                                     </mat-error>
                                 </mat-form-field>
                             </div>
@@ -51,13 +51,13 @@
                         <mat-grid-tile>
                             <div class="form-group">
                                 <mat-form-field appearance="outline">
-                                    <mat-label for="selling_price">Selling Price</mat-label>
+                                    <mat-label for="price_end_to">Price Range (End To)</mat-label>
                                     <input matInput type="number" class="example-right-align" placeholder="0"
-                                        formControlName="selling_price">
+                                        formControlName="price_end_to">
                                     <span matTextPrefix>&#x20B9;&nbsp;</span>
                                     <span matTextSuffix>.00</span>
-                                    <mat-error *ngIf="formData['selling_price'].hasError('required')">
-                                        Selling price is <strong>required</strong>
+                                    <mat-error *ngIf="formData['price_end_to'].hasError('required')">
+                                        Price range end to is <strong>required</strong>
                                     </mat-error>
                                 </mat-form-field>
                             </div>
@@ -86,9 +86,6 @@
                                     <mat-radio-button [value]="'inactive'" name="status">
                                         Inactive
                                     </mat-radio-button>
-                                    <mat-radio-button [value]="'out_of_stock'" name="status">
-                                        Out of Stock
-                                    </mat-radio-button>
                                 </mat-radio-group>
                                 <mat-error *ngIf="formData['status'].hasError('required')">
                                     Please select <strong>either</strong> value
@@ -98,7 +95,7 @@
                         <mat-grid-tile>
                             <div class="form-group form-footer">
                                 <button type="submit" mat-raised-button color="primary">
-                                    {{isEdit ? "Update ": "Create "}} Product
+                                    {{isEdit ? "Update ": "Create "}} Category
                                 </button>
                                 <button type="button" mat-raised-button color="warn"
                                     (click)="backToList()">Cancel</button>

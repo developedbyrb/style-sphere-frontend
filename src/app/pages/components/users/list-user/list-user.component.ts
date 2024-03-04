@@ -15,6 +15,8 @@ import { DialogComponent } from 'src/app/common/components/dialog/dialog.compone
 import { GraphqlService } from 'src/app/common/services/graphql/graphql.service';
 import { MatChipsModule } from '@angular/material/chips';
 import { environment } from 'src/environments/environment';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-list-user',
@@ -31,7 +33,8 @@ import { environment } from 'src/environments/environment';
     MatIconModule,
     MatDialogModule,
     DialogComponent,
-    MatChipsModule
+    MatChipsModule,
+    MatSnackBarModule
   ],
   templateUrl: './list-user.component.html',
   styleUrls: ['./list-user.component.scss']
@@ -41,7 +44,8 @@ export class ListUserComponent implements OnInit, AfterViewInit {
   constructor(
     private router: Router,
     public dialog: MatDialog,
-    private graphqlService: GraphqlService
+    private graphqlService: GraphqlService,
+    private snackBar: MatSnackBar
   ) { }
 
   displayedColumns: string[] = ['id', 'name', 'email', 'role', 'action'];
@@ -75,7 +79,14 @@ export class ListUserComponent implements OnInit, AfterViewInit {
           this.dataSource = usersData?.users?.data ?? [];
           this.totalData = usersData?.users?.paginatorInfo?.total ?? 0;
         },
-        error: err => console.log('Observable emitted an error: ' + err.message)
+        error: (err) => {
+          if (err.message.includes('Forbidden')) {
+            this.snackBar.open('You are not authorized to view this page', 'Close', {
+              duration: 3 * 1000,
+            });
+            this.router.navigate(['/']);
+          }
+        }
       });
   }
 

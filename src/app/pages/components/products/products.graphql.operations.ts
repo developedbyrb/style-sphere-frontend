@@ -6,8 +6,6 @@ const GET_PRODUCTS = gql`
             data {
                 id
                 name
-                email
-                image_url
             }
             paginatorInfo {
                 currentPage
