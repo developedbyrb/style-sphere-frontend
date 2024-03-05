@@ -17,6 +17,7 @@ mat-card {
                 mat-card-title {
                     display: flex;
                     justify-content: space-between;
+                    margin-bottom: 0.7rem;
 
                     .create-button {
                         display: flex;
@@ -57,4 +58,18 @@ mat-card-content {
 
 .mat-mdc-form-field-infix {
     min-height: 39px !important;
+}
+
+
+.user-image-wrapper {
+    width: 10%;
+
+    div {
+        width: 90%;
+        border-radius: 50%;
+
+        img {
+            width: inherit;
+        }
+    }
 }

@@ -1,20 +1,22 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 // imported material modules
-import { MatCardModule } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatIconModule } from '@angular/material/icon';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 // imported common services and components
+import { DialogComponent } from 'src/app/common/components/dialog/dialog.component';
 import { GraphqlService } from 'src/app/common/services/graphql/graphql.service';
-import { GET_CATEGORIES } from '../categories.graphql.operations';
+import { GET_CATEGORIES, REMOVE_CATEGORY } from '../categories.graphql.operations';
 
 @Component({
   selector: 'app-list-categories',
@@ -29,7 +31,9 @@ import { GET_CATEGORIES } from '../categories.graphql.operations';
     MatPaginatorModule,
     MatButtonModule,
     MatSnackBarModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule,
+    DialogComponent
   ],
   templateUrl: './list-categories.component.html',
   styleUrls: ['./list-categories.component.scss']
@@ -38,7 +42,8 @@ export class ListCategoriesComponent implements OnInit {
   constructor(
     private router: Router,
     private graphqlService: GraphqlService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog,
   ) { }
 
   dataSource = new MatTableDataSource<any>();
@@ -76,5 +81,31 @@ export class ListCategoriesComponent implements OnInit {
 
   redirectTo(route: string) {
     this.router.navigate([`${this.router.url}/${route}`]);
+  }
+
+  openDialog(categoryDetails: any) {
+    const customMessage = `You want to delete category ${categoryDetails.name}.`;
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: { title: 'Are you sure?', message: customMessage, modalData: categoryDetails.id },
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        this.removeCategory(categoryDetails.id, dialogRef);
+      }
+    });
+  }
+
+  removeCategory(id: number | string, dialogRef: any) {
+    const data = { 'id': id };
+    this.graphqlService.mutateData(REMOVE_CATEGORY, data).subscribe({
+      next: () => {
+        this.loadCategories(1);
+      },
+      error: err => console.error('Observable emitted an error: ' + err),
+      complete: () => {
+        dialogRef.close();
+      }
+    });
   }
 }

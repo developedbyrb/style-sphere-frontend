@@ -10,12 +10,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 // import common components
 import { FileUploadComponent } from 'src/app/common/components/file-upload/file-upload.component';
 import { GraphqlService } from 'src/app/common/services/graphql/graphql.service';
-import { CREATE_CATEGORY } from '../categories.graphql.operations';
+import { CREATE_CATEGORY, GET_CATEGORY, UPDATE_CATEGORY } from '../categories.graphql.operations';
 
 @Component({
   selector: 'app-upsert-categories',
@@ -39,7 +39,8 @@ export class UpsertCategoriesComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private graphqlService: GraphqlService
+    private graphqlService: GraphqlService,
+    private activatedRoute: ActivatedRoute
   ) {
   }
 
@@ -47,19 +48,42 @@ export class UpsertCategoriesComponent implements OnInit {
   categoryForm!: FormGroup;
   imageUrl: any = [];
   uploadedFiles!: File[];
+  categoryData: any = {};
+  categoryId: number = 0;
 
   ngOnInit(): void {
-    this.initializeCategoryForm();
+    const categoryId = Number(this.activatedRoute.snapshot?.params['id']);
+    if (categoryId) {
+      this.categoryId = categoryId;
+      this.getCategoryEditDetails(categoryId);
+    } else {
+      this.initializeCategoryForm();
+    }
   }
 
   initializeCategoryForm(): void {
     this.categoryForm = this.formBuilder.group({
-      'name': ['', [Validators.required]],
-      'code': ['', [Validators.required]],
-      'price_start_from': [''],
-      'price_end_to': [''],
-      'status': ['inactive', [Validators.required]],
+      'name': [this.categoryData?.name, [Validators.required]],
+      'code': [this.categoryData?.code, [Validators.required]],
+      'price_start_from': [this.categoryData?.price_start_from],
+      'price_end_to': [this.categoryData?.price_end_to],
+      'status': [this.categoryData?.status, [Validators.required]],
     });
+  }
+
+  getCategoryEditDetails(categoryId: number): void {
+    this.isEdit = true;
+    const categoryData = { id: categoryId };
+
+    this.graphqlService.getData(GET_CATEGORY, categoryData).subscribe({
+      next: (response) => {
+        this.categoryData = response.category;
+      },
+      error: err => console.error('Observable emitted an error: ' + err),
+      complete: () => {
+        this.initializeCategoryForm();
+      }
+    })
   }
 
   createUser(): void | boolean {
@@ -70,23 +94,35 @@ export class UpsertCategoriesComponent implements OnInit {
     let data = {
       'name': this.formData['name'].value,
       'code': this.formData['code'].value,
-      'price_start_from': this.formData['price_start_from'].value,
-      'price_end_to': this.formData['price_end_to'].value,
+      'price_start_from': +this.formData['price_start_from'].value,
+      'price_end_to': +this.formData['price_end_to'].value,
       'status': this.formData['status'].value
     }
 
     let fileUpload = false;
-    if (this.uploadedFiles.length > 0) {
+    if (this.uploadedFiles && this.uploadedFiles.length > 0) {
       fileUpload = true;
       data = { ...data, ...{ image: this.uploadedFiles[0] } }
     }
 
-    this.graphqlService.mutateData(CREATE_CATEGORY, data, fileUpload).subscribe({
-      error: err => console.error('Observable emitted an error: ' + err),
-      complete: () => {
-        this.backToList();
-      }
-    });
+    if (this.isEdit) {
+      const editData = { id: this.categoryId };
+      data = { ...data, ...editData };
+      console.log(data);
+      this.graphqlService.mutateData(UPDATE_CATEGORY, data, fileUpload).subscribe({
+        error: err => console.error('Observable emitted an error: ' + err),
+        complete: () => {
+          this.backToList();
+        }
+      });
+    } else {
+      this.graphqlService.mutateData(CREATE_CATEGORY, data, fileUpload).subscribe({
+        error: err => console.error('Observable emitted an error: ' + err),
+        complete: () => {
+          this.backToList();
+        }
+      });
+    }
   }
 
   get formData() {

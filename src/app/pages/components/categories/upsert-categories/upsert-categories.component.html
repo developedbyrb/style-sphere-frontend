@@ -9,7 +9,7 @@
         </mat-card-header>
         <mat-divider></mat-divider>
         <mat-card-content>
-            <div class="card">
+            <div class="card" *ngIf="categoryForm">
                 <form [formGroup]="categoryForm" (submit)="createUser()">
                     <mat-grid-list cols="2" rowHeight="90px">
                         <mat-grid-tile>
@@ -68,10 +68,10 @@
                                     <mat-label class="profile-lable">Upload category image</mat-label>
                                     <app-file-upload (uploadedFiles)="getFiles($event)" />
                                 </div>
-                                <ng-container *ngIf="isEdit && imageUrl">
+                                <ng-container *ngIf="isEdit && this.categoryData?.imageUrl">
                                     <div class="user-image-wrapper">
                                         <mat-label class="profile-lable">Uploaded avatar</mat-label>
-                                        <img [src]="imageUrl" alt="" />
+                                        <img [src]="this.categoryData.imageUrl" alt="" />
                                     </div>
                                 </ng-container>
                             </div>
