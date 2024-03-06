@@ -1,0 +1,198 @@
+<mat-card>
+    <div class="mat-elevation-z8">
+        <mat-card-header>
+            <mat-card-title>
+                <div>
+                    {{isEdit ? 'Edit': 'Create'}} Shop
+                </div>
+            </mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="card">
+                <form [formGroup]="shopForm" (submit)="formSubmit()">
+                    <mat-stepper #stepper orientation="vertical" [linear]="shopForm.invalid">
+                        <mat-step [stepControl]="formData['generalDetails']">
+                            <div formGroupName="generalDetails">
+                                <ng-template matStepLabel>Shop Details</ng-template>
+                                <mat-grid-list cols="2" rowHeight="85px">
+                                    <mat-grid-tile>
+                                        <div class="form-group">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label for="name">Business Name</mat-label>
+                                                <input matInput placeholder="Enter your Name" formControlName="name">
+                                                <mat-error *ngIf="generalData['email'].hasError('required')">
+                                                    Please provide your <strong>business name</strong>
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </mat-grid-tile>
+                                    <mat-grid-tile>
+                                        <div class="form-group">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label for="email">Email Address</mat-label>
+                                                <input matInput placeholder="Enter your Name" formControlName="email">
+                                                <mat-error *ngIf="generalData['email'].hasError('required')">
+                                                    Please provide your <strong>email address</strong>
+                                                </mat-error>
+                                                <mat-error *ngIf="generalData['email'].hasError('pattern')">
+                                                    Please provide your <strong>valid</strong> email address
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </mat-grid-tile>
+                                    <mat-grid-tile>
+                                        <div class="form-group">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label for="number">Phone number</mat-label>
+                                                <input matInput placeholder="Enter your Name" formControlName="number">
+                                                <mat-error *ngIf="generalData['number'].hasError('required')">
+                                                    Phone number is <strong>required</strong>
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </mat-grid-tile>
+                                    <mat-grid-tile>
+                                        <div class="form-group">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label for="website">Website</mat-label>
+                                                <input matInput placeholder="Enter your Name" formControlName="website">
+                                            </mat-form-field>
+                                        </div>
+                                    </mat-grid-tile>
+
+                                    <mat-grid-tile [colspan]="2">
+                                        <div class="form-group">
+                                            <mat-label class="profile-lable">Upload category image</mat-label>
+                                            <app-file-upload (uploadedFiles)="getFiles($event)" />
+                                        </div>
+                                    </mat-grid-tile>
+                                </mat-grid-list>
+                                <div class="stepper-change-wrapper">
+                                    <button color="accent" [type]="'button'" mat-raised-button
+                                        matStepperNext>Next</button>
+                                </div>
+                            </div>
+                        </mat-step>
+
+                        <mat-step [stepControl]="addresses">
+                            <div formArrayName="addressDetails">
+                                <ng-template matStepLabel>Shop Addresses</ng-template>
+                                <div class="stepper-change-wrapper">
+                                    <button color="primary" [type]="'button'" mat-raised-button
+                                        (click)="addAddressDetails()">Add
+                                        More</button>
+                                </div>
+                                <ng-container *ngFor="let addressForm of addresses.controls; let i = index">
+                                    <span>Address {{i +1}}:</span>
+                                    <mat-grid-list class="form-group-wrapper" cols="3" rowHeight="85px"
+                                        formGroupName="{{i}}">
+                                        <mat-grid-tile>
+                                            <div class="form-group">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label for="address_1">Business Address Line 1</mat-label>
+                                                    <input matInput placeholder="enter line 1"
+                                                        formControlName="address_1">
+                                                </mat-form-field>
+                                            </div>
+                                        </mat-grid-tile>
+                                        <mat-grid-tile>
+                                            <div class="form-group">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label for="address_2">>Business Address Line 2</mat-label>
+                                                    <input matInput placeholder="Enter your Name"
+                                                        formControlName="address_2">
+                                                </mat-form-field>
+                                            </div>
+                                        </mat-grid-tile>
+                                        <mat-grid-tile>
+                                            <div class="form-group">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label for="pincode">Pincode</mat-label>
+                                                    <input matInput placeholder="enter line 1"
+                                                        formControlName="pincode">
+                                                </mat-form-field>
+                                            </div>
+                                        </mat-grid-tile>
+                                        <mat-grid-tile>
+                                            <div class="form-group">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label for="country">Country</mat-label>
+                                                    <input matInput placeholder="Enter your Name"
+                                                        formControlName="country">
+                                                </mat-form-field>
+                                            </div>
+                                        </mat-grid-tile>
+                                        <mat-grid-tile>
+                                            <div class="form-group">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label for="state">State</mat-label>
+                                                    <input matInput placeholder="enter line 1" formControlName="state">
+                                                </mat-form-field>
+                                            </div>
+                                        </mat-grid-tile>
+                                        <mat-grid-tile>
+                                            <div class="form-group">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label for="city">City</mat-label>
+                                                    <input matInput placeholder="Enter your Name"
+                                                        formControlName="city">
+                                                </mat-form-field>
+                                            </div>
+                                        </mat-grid-tile>
+                                    </mat-grid-list>
+                                </ng-container>
+                                <div class="stepper-change-wrapper">
+                                    <button color="accent" [type]="'button'" mat-raised-button
+                                        matStepperNext>Next</button>
+                                </div>
+                            </div>
+                        </mat-step>
+
+                        <mat-step [stepControl]="products">
+                            <div formArrayName="productDetails">
+                                <ng-template matStepLabel>Shop Products</ng-template>
+                                <ng-container *ngFor="let productForm of products.controls; let i = index">
+                                    <mat-grid-list cols="3" rowHeight="85px" formGroupName="{{i}}">
+                                        <mat-grid-tile>
+                                            <div class="form-group">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label for="product">Business Address Line 1</mat-label>
+                                                    <input matInput placeholder="enter line 1"
+                                                        formControlName="product">
+                                                </mat-form-field>
+                                            </div>
+                                        </mat-grid-tile>
+                                        <mat-grid-tile>
+                                            <div class="form-group">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label for="stock">Email Address</mat-label>
+                                                    <input matInput placeholder="Enter your Name"
+                                                        formControlName="stock">
+                                                </mat-form-field>
+                                            </div>
+                                        </mat-grid-tile>
+                                        <mat-grid-tile>
+                                            <div class="form-group">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label for="price">Pincode</mat-label>
+                                                    <input matInput placeholder="enter line 1" formControlName="price">
+                                                </mat-form-field>
+                                            </div>
+                                        </mat-grid-tile>
+                                    </mat-grid-list>
+                                </ng-container>
+                                <div class="stepper-change-wrapper">
+                                    <button color="warn" [type]="'button'" mat-raised-button
+                                        matStepperPrevious>Back</button>
+                                    <button color="accent" [type]="'submit'" mat-raised-button
+                                        matStepperNext>Submit</button>
+                                </div>
+                            </div>
+                        </mat-step>
+                    </mat-stepper>
+                </form>
+            </div>
+        </mat-card-content>
+    </div>
+</mat-card>

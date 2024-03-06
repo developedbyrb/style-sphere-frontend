@@ -5,7 +5,12 @@
             [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
             <mat-nav-list>
                 <ng-container *ngFor="let nav of fillerNav;index as i; last as isLast">
-                    <a mat-list-item routerLink="{{nav.link}}">{{nav.name}}</a>
+                    <a mat-list-item routerLink="{{nav.link}}">
+                        <div class="flex-class">
+                            <mat-icon aria-hidden="false" fontIcon="{{nav?.icon}}"></mat-icon>
+                            <span class="nav-menu-link">{{nav.name}}</span>
+                        </div>
+                    </a>
                     <mat-divider *ngIf="!isLast"></mat-divider>
                 </ng-container>
             </mat-nav-list>

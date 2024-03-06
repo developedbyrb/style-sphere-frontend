@@ -7,6 +7,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatCardModule } from '@angular/material/card';
 import { SpinnerComponent } from '../common/components/spinner/spinner.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-pages',
@@ -19,6 +20,7 @@ import { SpinnerComponent } from '../common/components/spinner/spinner.component
     MatSidenavModule,
     MatCardModule,
     SpinnerComponent,
+    MatIconModule,
     NgFor,
     NgIf
   ],
@@ -31,23 +33,33 @@ export class PagesComponent implements OnDestroy {
   fillerNav = [
     {
       name: "Dashboard",
-      link: "dashboard"
+      link: "dashboard",
+      icon: "dashboard"
     },
     {
       name: "Users",
-      link: "users"
+      link: "users",
+      icon: "group"
     },
     {
       name: "Roles",
-      link: "roles"
+      link: "roles",
+      icon: "manage_accounts"
     },
     {
       name: "Products",
-      link: "products"
+      link: "products",
+      icon: "inventory_2"
     },
     {
       name: "Categories",
-      link: "categories"
+      link: "categories",
+      icon: "category"
+    },
+    {
+      name: "Shops",
+      link: "shops",
+      icon: "storefront"
     },
   ];
 

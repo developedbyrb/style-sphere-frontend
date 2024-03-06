@@ -49,6 +49,31 @@ const CREATE_USERS = gql`
     }
 `;
 
+const UPDATE_USERS = gql`
+    mutation UpdateUser(
+        $id: ID!,
+        $email: String,
+        $password: String,
+        $name: String,
+        $roleId: ID,
+        $profile_pic: Upload
+    ) {
+        updateUser(
+            id: $id,
+            input: {
+                email: $email,
+                password: $password,
+                name: $name,
+                role_id: $roleId,
+                profile_pic: $profile_pic
+            }
+        ) {
+            id
+            name
+        }
+    }
+`;
+
 const REMOVE_USER = gql`
     mutation userDelete($id: ID!) {
         deleteUser(id: $id) {
@@ -64,4 +89,4 @@ const GET_FILE_PATH = gql`
   }
 `;
 
-export { GET_USERS, CREATE_USERS, REMOVE_USER, GET_USER_DETAILS, GET_FILE_PATH }
+export { GET_USERS, CREATE_USERS, REMOVE_USER, GET_USER_DETAILS, GET_FILE_PATH, UPDATE_USERS }

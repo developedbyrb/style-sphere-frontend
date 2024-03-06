@@ -1,0 +1,65 @@
+mat-card {
+    margin: 2%;
+    height: -webkit-fill-available;
+
+    .mat-elevation-z8 {
+        width: inherit;
+        height: inherit;
+        padding: 16px;
+
+        mat-card-header {
+            padding: 0px;
+            width: 100%;
+
+            ::ng-deep div {
+                width: 100%;
+
+                mat-card-title {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 0.7rem;
+
+                    .create-button {
+                        display: flex;
+                        flex-direction: row-reverse;
+
+                        mat-form-field {
+                            margin-right: 2%;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        .mat-divider {
+            margin-bottom: 2%;
+        }
+
+        .mdc-card__actions {
+            flex-direction: row-reverse;
+        }
+    }
+
+}
+
+.flex {
+    button {
+        margin-left: 2px;
+        margin-right: 4px;
+    }
+}
+
+mat-card-content {
+    overflow-x: hidden;
+    height: 75%;
+    width: inherit;
+}
+
+.mat-mdc-form-field-infix {
+    min-height: 39px !important;
+}
+
+.mat-column-description {
+    width: 60%;
+}

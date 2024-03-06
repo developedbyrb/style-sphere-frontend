@@ -108,7 +108,7 @@ export class UpsertCategoriesComponent implements OnInit {
     if (this.isEdit) {
       const editData = { id: this.categoryId };
       data = { ...data, ...editData };
-      console.log(data);
+
       this.graphqlService.mutateData(UPDATE_CATEGORY, data, fileUpload).subscribe({
         error: err => console.error('Observable emitted an error: ' + err),
         complete: () => {

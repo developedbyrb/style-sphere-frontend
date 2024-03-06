@@ -30,6 +30,14 @@ export const routes: Routes = [
             {
                 path: 'categories',
                 loadChildren: () => import('./components/categories/categories.routes').then(module => module.routes)
+            },
+            {
+                path: 'shops',
+                loadChildren: () => import('./components/shops/shops.routes').then(module => module.routes)
+            },
+            {
+                path: '***',
+                redirectTo: 'dashboard'
             }
         ]
     },
