@@ -43,7 +43,7 @@ export class ListProductsComponent implements OnInit {
   ) { }
 
   dataSource = new MatTableDataSource<any>();
-  displayedColumns: string[] = ['id', 'name', 'description', 'price', 'action'];
+  displayedColumns: string[] = ['id', 'name', 'description', 'selling_price', 'action'];
   perPage: number = 5;
   totalData: number = 0;
   searchValue: string = "";
@@ -104,7 +104,7 @@ export class ListProductsComponent implements OnInit {
     });
   }
 
-  redirectToProductEditPage(id: number | string) {
-    this.router.navigate([`products/edit/${id}`]);
+  redirectTo(route: string) {
+    this.router.navigate([`${this.router.url}/${route}`]);
   }
 }

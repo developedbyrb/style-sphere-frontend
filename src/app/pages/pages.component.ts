@@ -6,6 +6,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatCardModule } from '@angular/material/card';
+import { SpinnerComponent } from '../common/components/spinner/spinner.component';
 
 @Component({
   selector: 'app-pages',
@@ -17,6 +18,7 @@ import { MatCardModule } from '@angular/material/card';
     MatListModule,
     MatSidenavModule,
     MatCardModule,
+    SpinnerComponent,
     NgFor,
     NgIf
   ],

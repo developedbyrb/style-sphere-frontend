@@ -7,4 +7,27 @@ mat-card {
         height: inherit;
         padding: 16px;
     }
+
+    .example-card {
+        width: 100%;
+        background-color: #BBD1EA;
+    }
+
+    .title {
+        color: #507DBC;
+        font-size: 1.18em;
+        font-weight: 500;
+    }
+
+    span {
+        display: block;
+    }
+
+    .c-dashboardInfo__count {
+        font-weight: 700;
+        font-size: 2.5em;
+        line-height: 64px;
+        color: #04080F;
+        text-align: center;
+    }
 }

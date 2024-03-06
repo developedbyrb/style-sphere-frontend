@@ -15,7 +15,7 @@ export const routes: Routes = [
                 loadChildren: () => import('./upsert-products/upsert-products.routes').then(module => module.routes)
             },
             {
-                path: 'edit/:id',
+                path: ':id',
                 loadChildren: () => import('./upsert-products/upsert-products.routes').then(module => module.routes)
             }
         ]

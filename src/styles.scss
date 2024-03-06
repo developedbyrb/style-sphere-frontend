@@ -1,6 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600&display=swap');
 
+
+$primary-background-color: #DAE3E5;
+$secondary-background-color: #BBD1EA;
+$primary-border-color: #A1C6EA;
+$accent-color: #507DBC;
+$primary-color: #04080F;
+
 html,
 body {
     height: 100%;
@@ -9,8 +16,7 @@ body {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
-    background-color: #F9F7F7;
-
+    background-color: $primary-background-color !important;
 }
 
 .header {
@@ -146,11 +152,6 @@ body .push-right {
 
 .example-card {
     max-width: 400px;
-}
-
-.example-header-image {
-    background-image: url("https://material.angular.io/assets/img/examples/shiba1.jpg");
-    background-size: cover;
 }
 
 .title-group {

@@ -9,7 +9,7 @@
         </mat-card-header>
         <mat-divider></mat-divider>
         <mat-card-content>
-            <div class="card">
+            <div class="card" *ngIf="productForm">
                 <form [formGroup]="productForm" (submit)="createProduct()">
                     <mat-grid-list cols="2" rowHeight="90px">
                         <mat-grid-tile>
@@ -63,7 +63,64 @@
                             </div>
                         </mat-grid-tile>
                         <mat-grid-tile>
-                            <div class="form-group-wrapper">
+                            <div class="form-group">
+                                <mat-form-field appearance="outline">
+                                    <mat-label for="categories">Categories</mat-label>
+                                    <mat-select formControlName="category_id">
+                                        <mat-option *ngFor=" let category of categories" [value]="category?.id">
+                                            {{ category?.name }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                            <div class="form-group">
+                                <mat-form-field appearance="outline">
+                                    <mat-label for="tags">Tags</mat-label>
+                                    <input matInput placeholder="ex. electronics, laptop" formControlName="tags">
+                                    <mat-error *ngIf="formData['tags'].hasError('required')">
+                                        Name is <strong>required</strong>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                            <div class="form-group">
+                                <mat-form-field appearance="outline">
+                                    <mat-label for="current_stock_qty">Current Stock Qty</mat-label>
+                                    <input matInput type="number" placeholder="enter stock qty"
+                                        formControlName="current_stock_qty">
+                                    <mat-error *ngIf="formData['tags'].hasError('required')">
+                                        Name is <strong>required</strong>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                            <div class="form-group">
+                                <mat-form-field appearance="outline">
+                                    <mat-label for="low_stock_alert_qty">Minimum Stock (alert on low stock)</mat-label>
+                                    <input matInput type="number" placeholder="enter minimum stock qty"
+                                        formControlName="low_stock_alert_qty">
+                                    <mat-error *ngIf="formData['low_stock_alert_qty'].hasError('required')">
+                                        Name is <strong>required</strong>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </mat-grid-tile>
+                        <mat-grid-tile [colspan]="2">
+                            <div class="form-group text-area">
+                                <mat-form-field appearance="outline">
+                                    <mat-label for="description">Description</mat-label>
+                                    <textarea matInput placeholder=" enter product description"
+                                        formControlName="description"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </mat-grid-tile>
+
+                        <mat-grid-tile>
+                            <div class=" form-group-wrapper">
                                 <div class="form-group">
                                     <mat-label class="profile-lable">Upload category image</mat-label>
                                     <app-file-upload (uploadedFiles)="getFiles($event)" />

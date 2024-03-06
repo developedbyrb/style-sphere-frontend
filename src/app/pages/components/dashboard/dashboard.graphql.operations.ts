@@ -1,12 +1,14 @@
 import { gql } from "apollo-angular";
 
-const GET_PROFILE_DETAILS = gql`
-    query{
-        me {
-            name
-            email
+const GET_DASHBOARD_ANALYTICS = gql`
+    query GetDashboardDetails{
+        dashboardData {
+            usersCount
+            categoriesCount
+            productsCount
+            shopsCount
         }
     }
 `;
 
-export { GET_PROFILE_DETAILS }
+export { GET_DASHBOARD_ANALYTICS }

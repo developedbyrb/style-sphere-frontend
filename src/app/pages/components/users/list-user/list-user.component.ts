@@ -17,6 +17,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { environment } from 'src/environments/environment';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { LoadingService } from 'src/app/common/services/loading.service';
 
 @Component({
   selector: 'app-list-user',
@@ -45,7 +46,8 @@ export class ListUserComponent implements OnInit, AfterViewInit {
     private router: Router,
     public dialog: MatDialog,
     private graphqlService: GraphqlService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private loadingService: LoadingService
   ) { }
 
   displayedColumns: string[] = ['id', 'name', 'email', 'role', 'action'];
@@ -76,6 +78,7 @@ export class ListUserComponent implements OnInit, AfterViewInit {
     this.graphqlService.getData(GET_USERS, paginationObject)
       .subscribe({
         next: (usersData: any) => {
+          this.loadingService.loadingOn();
           this.dataSource = usersData?.users?.data ?? [];
           this.totalData = usersData?.users?.paginatorInfo?.total ?? 0;
         },
@@ -86,7 +89,8 @@ export class ListUserComponent implements OnInit, AfterViewInit {
             });
             this.router.navigate(['/']);
           }
-        }
+        },
+        complete: () => { this.loadingService.loadingOff(); }
       });
   }
 

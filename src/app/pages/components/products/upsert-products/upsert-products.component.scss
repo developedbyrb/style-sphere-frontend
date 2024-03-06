@@ -69,3 +69,9 @@ mat-card {
         width: inherit;
     }
 }
+
+.text-area {
+    mat-form-field {
+        padding-top: 2%;
+    }
+}
