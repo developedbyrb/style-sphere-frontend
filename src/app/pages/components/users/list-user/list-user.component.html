@@ -63,15 +63,13 @@
                         <th mat-header-cell *matHeaderCellDef> Action </th>
                         <td mat-cell *matCellDef="let element">
                             <div class="flex">
-                                <button mat-mini-fab matTooltip="Accent" color="accent"
-                                    aria-label="Example mini fab with a heart icon"
-                                    (click)="redirectToUserEditPage(element.id)" [title]="'edit user'">
+                                <span class="cursor-pointer" [title]="'Edit User'"
+                                    (click)="redirectToUserEditPage(element.id)">
                                     <mat-icon>edit</mat-icon>
-                                </button>
-                                <button mat-mini-fab matTooltip="Warn" color="warn" [title]="'remove user'"
-                                    aria-label="Example mini fab with a heart icon" (click)="openDialog(element)">
+                                </span>
+                                <span class="cursor-pointer" [title]="'Remove User'" (click)="openDialog(element)">
                                     <mat-icon>delete</mat-icon>
-                                </button>
+                                </span>
                             </div>
                         </td>
                     </ng-container>

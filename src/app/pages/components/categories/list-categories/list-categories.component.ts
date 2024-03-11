@@ -48,7 +48,7 @@ export class ListCategoriesComponent implements OnInit {
 
   dataSource = new MatTableDataSource<any>();
   displayedColumns: string[] = ['id', 'name', 'code', 'price_start', 'price_end', 'status', 'action'];
-  perPage: number = 5;
+  perPage: number = 10;
   totalData: number = 0;
   searchValue: string = "";
 

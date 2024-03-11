@@ -21,8 +21,8 @@ export class SpinnerComponent {
   loading$!: Observable<boolean>;
 
   @Input() detectRouteTransitions = false;
-  @ContentChild("loading")
-  customLoadingIndicator: TemplateRef<any> | null = null;
+
+  @ContentChild("loading") customLoadingIndicator: TemplateRef<any> | null = null;
 
   constructor(
     private loadingService: LoadingService,

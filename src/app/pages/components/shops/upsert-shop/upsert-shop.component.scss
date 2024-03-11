@@ -79,6 +79,10 @@ mat-card {
     }
 }
 
+.action-buttons {
+    margin-top: 2rem;
+}
+
 .stepper-change-wrapper {
     display: flex;
     justify-content: flex-end;
@@ -87,4 +91,8 @@ mat-card {
         width: 30%;
         margin-right: 2.5%;
     }
+}
+
+.selection-search {
+    width: inherit;
 }

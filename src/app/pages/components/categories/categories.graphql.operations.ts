@@ -63,8 +63,9 @@ const CREATE_CATEGORY = gql`
             status: $status,
             image: $image
         }) {
-            id
-            name
+            success
+            data
+            message
         }
     }
 `;

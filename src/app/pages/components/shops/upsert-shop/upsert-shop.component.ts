@@ -10,12 +10,18 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { Router } from '@angular/router';
+import { map } from 'rxjs';
 
 // import common modules
 import { FileUploadComponent } from 'src/app/common/components/file-upload/file-upload.component';
 import { regex } from 'src/app/common/constants/regex';
+import { GET_CITIES, GET_COUNTRIES, GET_STATES } from 'src/app/common/schemas/geoConfigs.graphql.schemas';
+import { GraphqlService } from 'src/app/common/services/graphql/graphql.service';
+import { GET_PRODUCTS, GET_PRODUCT_DETAILS } from '../../products/products.graphql.operations';
+import { CREATE_SHOP } from '../shops.graphql.schemas';
 
 @Component({
   selector: 'app-upsert-shop',
@@ -32,6 +38,7 @@ import { regex } from 'src/app/common/constants/regex';
     MatButtonModule,
     MatStepperModule,
     FileUploadComponent,
+    MatSelectModule
   ],
   templateUrl: './upsert-shop.component.html',
   styleUrls: ['./upsert-shop.component.scss']
@@ -39,12 +46,19 @@ import { regex } from 'src/app/common/constants/regex';
 export class UpsertShopComponent implements OnInit {
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private graphqlService: GraphqlService
   ) { }
 
   shopForm!: FormGroup;
   isEdit: boolean = false;
   uploadedFiles: any[] = [];
+  countriesList: any[] = [];
+  statesList: any[] = [];
+  citiesList: any[] = [];
+  productsList: any[] = [];
+  productErrorArray: any[] = [];
+  selectedProduct: string[] = [];
 
   ngOnInit(): void {
     this.initializeShopForm();
@@ -56,7 +70,8 @@ export class UpsertShopComponent implements OnInit {
         'name': ['', [Validators.required]],
         'email': ['', [Validators.required, Validators.pattern(regex.email)]],
         'website': [''],
-        'number': ['']
+        'number': ['', [Validators.required]],
+        'description': ['']
       }),
       addressDetails: this.formBuilder.array([]),
       productDetails: this.formBuilder.array([]),
@@ -113,12 +128,112 @@ export class UpsertShopComponent implements OnInit {
     this.router.navigate(['/shops']);
   }
 
-  formSubmit() {
-    console.log(this.shopForm);
-    console.log('form submit!');
+  formSubmit(): boolean | void {
+    if (this.shopForm.invalid) {
+      return false;
+    }
+
+    const data = {
+      "generalDetails": this.shopForm.get('generalDetails')?.value,
+      "addressDetails": this.shopForm.get('addressDetails')?.value,
+      "productDetails": this.shopForm.get('productDetails')?.value
+    }
+
+    this.graphqlService.mutateData(CREATE_SHOP, data)
+      .subscribe({
+        error: err => console.error('Observable emitted an error: ' + err),
+        complete: () => {
+          this.backToList();
+        }
+      });
   }
 
   getFiles($event: File[]) {
     this.uploadedFiles = $event;
+  }
+
+  getCountries() {
+    this.graphqlService.getData(GET_COUNTRIES)
+      .pipe(map((module) => module.countries))
+      .subscribe({
+        next: (countries: any) => {
+          this.countriesList = countries;
+        },
+        error: (err) => {
+        }
+      });
+  }
+
+  countryValueChange(event: string) {
+    this.graphqlService.getData(GET_STATES, { countryId: event })
+      .pipe(map((module) => module.stateByCountryId))
+      .subscribe({
+        next: (states: any) => {
+          this.statesList = states;
+        },
+        error: (err) => {
+        }
+      });
+  }
+
+  stateValueChange(event: string) {
+    this.graphqlService.getData(GET_CITIES, { stateId: event })
+      .pipe(map((module) => module.citiesByStateId))
+      .subscribe({
+        next: (cities: any) => {
+          this.citiesList = cities;
+        },
+        error: (err) => {
+        }
+      });
+  }
+
+  onKey(target: any) {
+    this.countriesList = this.search(target.value);
+  }
+
+  search(value: string) {
+    let filter = value.toLowerCase();
+    return this.countriesList.filter(option => option.name.toLowerCase().startsWith(filter));
+  }
+
+  getProducts() {
+    this.graphqlService.getData(GET_PRODUCTS)
+      .pipe(map(module => module.products))
+      .subscribe({
+        next: (productData: any) => {
+          this.productsList = productData.data;
+        },
+        error: err => console.error('Observable emitted an error: ' + err)
+      });
+  }
+
+  getProductDetails(event: string, index: number) {
+    const data = { id: event };
+    this.selectedProduct[index] = event;
+    this.graphqlService.getData(GET_PRODUCT_DETAILS, data)
+      .pipe(map((module) => module.product))
+      .subscribe({
+        next: (data: any) => {
+          const getFormGroup = this.products.controls.at(index) as FormGroup;
+          if (getFormGroup) {
+            getFormGroup.get('stock')?.setValidators([
+              Validators.required,
+              Validators.max(data.current_stock_qty),
+              Validators.min(data.low_stock_alert_qty)
+            ]);
+            getFormGroup.get('stock')?.updateValueAndValidity();
+
+            getFormGroup.get('price')?.setValidators([
+              Validators.required,
+              Validators.max(data.selling_price),
+              Validators.min(data.purchase_price)
+            ]);
+            getFormGroup.get('price')?.updateValueAndValidity();
+          }
+        },
+        error: (err) => {
+        }
+      });
   }
 }

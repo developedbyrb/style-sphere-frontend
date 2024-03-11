@@ -15,7 +15,7 @@
                         <mat-step [stepControl]="formData['generalDetails']">
                             <div formGroupName="generalDetails">
                                 <ng-template matStepLabel>Shop Details</ng-template>
-                                <mat-grid-list cols="2" rowHeight="85px">
+                                <mat-grid-list cols="2" rowHeight="100px">
                                     <mat-grid-tile>
                                         <div class="form-group">
                                             <mat-form-field appearance="outline">
@@ -60,6 +60,15 @@
                                             </mat-form-field>
                                         </div>
                                     </mat-grid-tile>
+                                    <mat-grid-tile [colspan]="2">
+                                        <div class="form-group">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label for="description">Description</mat-label>
+                                                <textarea matInput placeholder=" enter product description"
+                                                    formControlName="description"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </mat-grid-tile>
 
                                     <mat-grid-tile [colspan]="2">
                                         <div class="form-group">
@@ -68,9 +77,12 @@
                                         </div>
                                     </mat-grid-tile>
                                 </mat-grid-list>
+
                                 <div class="stepper-change-wrapper">
-                                    <button color="accent" [type]="'button'" mat-raised-button
-                                        matStepperNext>Next</button>
+                                    <button color="warn" [type]="'button'" mat-raised-button
+                                        (click)="backToList()">Back</button>
+                                    <button color="accent" [type]="'button'" mat-raised-button matStepperNext
+                                        (click)="getCountries()">Next</button>
                                 </div>
                             </div>
                         </mat-step>
@@ -99,7 +111,7 @@
                                         <mat-grid-tile>
                                             <div class="form-group">
                                                 <mat-form-field appearance="outline">
-                                                    <mat-label for="address_2">>Business Address Line 2</mat-label>
+                                                    <mat-label for="address_2">Business Address Line 2</mat-label>
                                                     <input matInput placeholder="Enter your Name"
                                                         formControlName="address_2">
                                                 </mat-form-field>
@@ -118,8 +130,13 @@
                                             <div class="form-group">
                                                 <mat-form-field appearance="outline">
                                                     <mat-label for="country">Country</mat-label>
-                                                    <input matInput placeholder="Enter your Name"
-                                                        formControlName="country">
+                                                    <mat-select formControlName="country"
+                                                        (valueChange)="countryValueChange($event)">
+                                                        <mat-option *ngFor="let country of countriesList"
+                                                            [value]="country.id">
+                                                            {{ country.name }}
+                                                        </mat-option>
+                                                    </mat-select>
                                                 </mat-form-field>
                                             </div>
                                         </mat-grid-tile>
@@ -127,7 +144,12 @@
                                             <div class="form-group">
                                                 <mat-form-field appearance="outline">
                                                     <mat-label for="state">State</mat-label>
-                                                    <input matInput placeholder="enter line 1" formControlName="state">
+                                                    <mat-select formControlName="state"
+                                                        (valueChange)="stateValueChange($event)">
+                                                        <mat-option *ngFor="let state of statesList" [value]="state.id">
+                                                            {{ state.name }}
+                                                        </mat-option>
+                                                    </mat-select>
                                                 </mat-form-field>
                                             </div>
                                         </mat-grid-tile>
@@ -135,16 +157,21 @@
                                             <div class="form-group">
                                                 <mat-form-field appearance="outline">
                                                     <mat-label for="city">City</mat-label>
-                                                    <input matInput placeholder="Enter your Name"
-                                                        formControlName="city">
+                                                    <mat-select formControlName="city">
+                                                        <mat-option *ngFor="let city of citiesList" [value]="city.id">
+                                                            {{ city.name }}
+                                                        </mat-option>
+                                                    </mat-select>
                                                 </mat-form-field>
                                             </div>
                                         </mat-grid-tile>
                                     </mat-grid-list>
                                 </ng-container>
                                 <div class="stepper-change-wrapper">
-                                    <button color="accent" [type]="'button'" mat-raised-button
-                                        matStepperNext>Next</button>
+                                    <button color="warn" [type]="'button'" mat-raised-button
+                                        matStepperPrevious>Back</button>
+                                    <button color="accent" [type]="'button'" mat-raised-button matStepperNext
+                                        (click)="getProducts()">Next</button>
                                 </div>
                             </div>
                         </mat-step>
@@ -152,31 +179,62 @@
                         <mat-step [stepControl]="products">
                             <div formArrayName="productDetails">
                                 <ng-template matStepLabel>Shop Products</ng-template>
+                                <div class="stepper-change-wrapper">
+                                    <button color="primary" [type]="'button'" mat-raised-button
+                                        (click)="addProductDetails()"
+                                        [disabled]="products.controls.length === productsList.length">
+                                        Add More</button>
+                                </div>
                                 <ng-container *ngFor="let productForm of products.controls; let i = index">
                                     <mat-grid-list cols="3" rowHeight="85px" formGroupName="{{i}}">
                                         <mat-grid-tile>
                                             <div class="form-group">
                                                 <mat-form-field appearance="outline">
-                                                    <mat-label for="product">Business Address Line 1</mat-label>
-                                                    <input matInput placeholder="enter line 1"
-                                                        formControlName="product">
+                                                    <mat-label for="product">Select Product</mat-label>
+                                                    <mat-select formControlName="product"
+                                                        (valueChange)="getProductDetails($event, i)">
+                                                        <mat-option *ngFor="let product of productsList"
+                                                            [value]="product.id"
+                                                            [disabled]="selectedProduct.includes(product.id)">
+                                                            {{ product.name }}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <mat-error *ngIf="productForm.get('product')?.hasError('required')">
+                                                        Product selection is <strong>required</strong>
+                                                    </mat-error>
                                                 </mat-form-field>
                                             </div>
                                         </mat-grid-tile>
                                         <mat-grid-tile>
                                             <div class="form-group">
                                                 <mat-form-field appearance="outline">
-                                                    <mat-label for="stock">Email Address</mat-label>
+                                                    <mat-label for="stock">Stock</mat-label>
                                                     <input matInput placeholder="Enter your Name"
                                                         formControlName="stock">
+                                                    <mat-error *ngIf="productForm.get('stock')?.hasError('required')">
+                                                        Product Stock is <strong>required</strong>
+                                                    </mat-error>
+                                                    <mat-error
+                                                        *ngIf="productForm.get('stock')?.hasError('min') || productForm.get('stock')?.hasError('max')">
+                                                        Please enter product stock between <strong>x</strong> and
+                                                        <strong>y</strong>
+                                                    </mat-error>
                                                 </mat-form-field>
                                             </div>
                                         </mat-grid-tile>
                                         <mat-grid-tile>
                                             <div class="form-group">
                                                 <mat-form-field appearance="outline">
-                                                    <mat-label for="price">Pincode</mat-label>
+                                                    <mat-label for="price">Price</mat-label>
                                                     <input matInput placeholder="enter line 1" formControlName="price">
+                                                    <mat-error *ngIf="productForm.get('price')?.hasError('required')">
+                                                        Product Price is <strong>required</strong>
+                                                    </mat-error>
+                                                    <mat-error
+                                                        *ngIf="productForm.get('price')?.hasError('min') || productForm.get('price')?.hasError('max')">
+                                                        Please enter product price between <strong>x</strong> and
+                                                        <strong>y</strong>
+                                                    </mat-error>
                                                 </mat-form-field>
                                             </div>
                                         </mat-grid-tile>
