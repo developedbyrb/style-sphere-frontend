@@ -1,0 +1,23 @@
+.general-details-wrapper,
+.product-details-wrapper,
+.address-details-wrapper {
+    margin: 3rem 0 3rem 0;
+}
+
+.product-details-wrapper,
+.address-details-wrapper {
+    span {
+        font-weight: 500;
+        font-size: large;
+    }
+
+    .mat-elevation-z8 {
+        margin-top: 1rem;
+    }
+
+    .general-details {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 500;
+    }
+}

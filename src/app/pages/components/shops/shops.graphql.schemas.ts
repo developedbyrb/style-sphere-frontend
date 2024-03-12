@@ -31,4 +31,41 @@ const CREATE_SHOP = gql`
     }
 `;
 
-export { GET_SHOPS, CREATE_SHOP };
+const GET_SHOP_DETAILS = gql`
+    query GetShopDetails($id: ID!) {
+        shopDetails(id: $id) {
+            email
+            name
+            mobile_number
+            description
+            status
+            productCount
+            products {
+                id
+                available_qty
+                selling_price
+                product {
+                    id
+                    name
+                }
+            }
+            addresses {
+                id
+                address_line_1
+                address_line_2
+                city {
+                    id
+                    name
+                }
+                state {
+                    name
+                }
+                country {
+                    name
+                }
+            }
+        }
+    }
+`
+
+export { GET_SHOPS, GET_SHOP_DETAILS, CREATE_SHOP };

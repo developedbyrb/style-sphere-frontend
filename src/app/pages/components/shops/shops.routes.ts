@@ -17,6 +17,10 @@ export const routes: Routes = [
             {
                 path: ':id',
                 loadChildren: () => import('./upsert-shop/upsert-shop.routes').then(module => module.routes)
+            },
+            {
+                path: ':id/details',
+                loadChildren: () => import('./view-shop/view-shop.routes').then(module => module.routes)
             }
         ]
     }
