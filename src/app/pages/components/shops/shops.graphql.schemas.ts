@@ -48,6 +48,9 @@ const GET_SHOP_DETAILS = gql`
                     id
                     name
                 }
+                shop {
+                    id
+                }
             }
             addresses {
                 id

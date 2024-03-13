@@ -5,6 +5,11 @@
     <span>Style Sphere</span>
     <span class="spacer">
     </span>
+
+    <div class="demo-section cursor-pointer" (click)="viewCartDetails()">
+        <mat-icon [matBadge]="cartItems | async" matBadgeColor="accent" aria-hidden="false">shopping_cart</mat-icon>
+    </div>
+
     <button mat-button [matMenuTriggerFor]="menu">{{userName}}</button>
     <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="logout()">Log out</button>

@@ -1,0 +1,27 @@
+.table-footer {
+    font-size: large;
+    font-weight: 600;
+}
+
+.proceed-to-checkout--wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    button {
+        font-size: medium;
+        line-height: 1px;
+    }
+}
+
+.form-group {
+    margin-top: 1rem;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    mat-form-field {
+        width: inherit;
+    }
+}

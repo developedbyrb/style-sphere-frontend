@@ -8,6 +8,8 @@ import { GET_SHOP_DETAILS } from '../shops.graphql.schemas';
 import { map } from 'rxjs';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { ADD_PRODUCT_TO_CART } from '../../cart-items/cart-items.graphql.schema';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-view-shop',
@@ -17,7 +19,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatCardModule,
     MatDividerModule,
     MatTableModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSnackBarModule
   ],
   templateUrl: './view-shop.component.html',
   styleUrls: ['./view-shop.component.scss']
@@ -26,7 +29,8 @@ export class ViewShopComponent implements OnInit {
   constructor(
     private graphqlService: GraphqlService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private matSnackBar: MatSnackBar
   ) { }
 
   shopId: number = 0;
@@ -54,6 +58,26 @@ export class ViewShopComponent implements OnInit {
         },
         error: err => console.error('Observable emitted an error: ' + err)
       })
+  }
+
+  addToCart(details: any) {
+    const data = {
+      'shop': Number(details.shop.id),
+      'product': Number(details.product.id),
+      'qty': "1",
+      'price': String(details.selling_price)
+    }
+    this.graphqlService.mutateData(ADD_PRODUCT_TO_CART, data)
+      .pipe(map(module => module.data.addToCart.cartCount))
+      .subscribe({
+        next: (count) => {
+          this.graphqlService.setCartCount(count);
+          this.matSnackBar.open('Product added to cart successfully!', 'Close', {
+            duration: 3 * 1000,
+          });
+        },
+        error: err => console.error('Observable emitted an error: ' + err)
+      });
   }
 
   backToMain() {
