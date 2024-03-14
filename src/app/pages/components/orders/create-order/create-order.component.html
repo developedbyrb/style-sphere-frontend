@@ -1,0 +1,154 @@
+<mat-card>
+    <div class="mat-elevation-z8">
+        <mat-card-content>
+            <mat-grid-list cols="2" rowHeight="1:1">
+                <mat-grid-tile>
+                    <div class="order-information-wrapper">
+                        <form [formGroup]="contactForm">
+                            <div class="contact-information-wrapper">
+                                <h2>Contact information</h2>
+                                <mat-form-field class="form-group" appearance="outline">
+                                    <mat-label for="email">Email Address</mat-label>
+                                    <input matInput placeholder="Enter your Name" formControlName="email">
+                                </mat-form-field>
+                            </div>
+                            <mat-divider></mat-divider>
+                            <div class="shipping-information-wrapper">
+                                <h2>Shipping information</h2>
+                                <mat-form-field class="form-group" appearance="outline">
+                                    <mat-label for="fullName">Full Name</mat-label>
+                                    <input matInput placeholder="Enter your Name" formControlName="fullName">
+                                </mat-form-field>
+                                <mat-form-field class="form-group" appearance="outline">
+                                    <mat-label for="address">Address</mat-label>
+                                    <input matInput placeholder="Enter your Name" formControlName="address">
+                                </mat-form-field>
+
+                                <div class="form-group-wrapper">
+                                    <mat-form-field class="form-group" appearance="outline">
+                                        <mat-label for="country">Country</mat-label>
+                                        <mat-select formControlName="country">
+                                            <mat-option *ngFor="let country of countriesList" [value]="country.id">
+                                                {{ country.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="form-group" appearance="outline">
+                                        <mat-label for="state">State</mat-label>
+                                        <mat-select formControlName="state">
+                                            <mat-option *ngFor="let state of statesList" [value]="state.id">
+                                                {{ state.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="form-group-wrapper">
+                                    <mat-form-field class="form-group" appearance="outline">
+                                        <mat-label for="city">City</mat-label>
+                                        <mat-select formControlName="city">
+                                            <mat-option *ngFor="let city of citiesList" [value]="city.id">
+                                                {{ city.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="form-group" appearance="outline">
+                                        <mat-label for="pincode">Postal Code</mat-label>
+                                        <input matInput placeholder="Enter your Name" formControlName="pincode">
+                                    </mat-form-field>
+                                </div>
+
+                                <mat-form-field class="form-group" appearance="outline">
+                                    <mat-label for="mobile">Phone</mat-label>
+                                    <input matInput placeholder="Enter your Name" formControlName="mobile">
+                                </mat-form-field>
+                            </div>
+                            <mat-divider></mat-divider>
+                            <div class="delivery-information-wrapper">
+                                <h2>Delivery Method</h2>
+                                <mat-radio-group class="form-group group wrap" aria-label="Select an option">
+                                    <div class="card" *ngFor="let option of deliveryMethods">
+                                        <div class="header">
+                                            <div>{{option}}</div>
+                                            <mat-radio-button class="radio" [value]="option"></mat-radio-button>
+                                        </div>
+                                        <div class="body">
+                                            <p>4-10 business days</p>
+                                            <p>{{50 | currency:'INR' }}</p>
+                                        </div>
+                                    </div>
+                                </mat-radio-group>
+                            </div>
+                            <mat-divider></mat-divider>
+                            <div class="payment-information-wrapper">
+                                <h2>Payment</h2>
+                                <mat-radio-group class="form-group-wrapper" aria-label="Select an option"
+                                    formControlName="paymentType">
+                                    <mat-radio-button *ngFor="let paymentMethod of paymentMethods"
+                                        [value]="paymentMethod.value" name="status">
+                                        {{paymentMethod.name}}
+                                    </mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </form>
+                    </div>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <div class="order-summary-wrapper">
+                        <h2>Order summary</h2>
+                        <div class="container">
+
+                            <div class="product">
+                                <div class="img-container">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?dpr=1&auto=compress,format&fit=crop&w=1400&h=&q=80&cs=tinysrgb&crop=">
+                                </div>
+                                <div class="product-info">
+                                    <div class="product-content">
+                                        <h1>Nike Airmax</h1>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit ariatur</p>
+                                        <ul>
+                                            <li>Lorem ipsum dolor sit ametconsectetu.</li>
+                                            <li>adipisicing elit dlanditiis quis ip.</li>
+                                            <li>lorem sde glanditiis dars fao.</li>
+                                        </ul>
+                                        <div class="buttons">
+                                            <a class="button buy" href="#">Buy</a>
+                                            <a class="button add" href="#">Add to Cart</a>
+                                            <span class="button" id="price">$59,99</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="product">
+                                <div class="img-container">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1434493907317-a46b5bbe7834?dpr=1&auto=compress,format&fit=crop&w=1500&h=&q=80&cs=tinysrgb&crop=">
+                                </div>
+                                <div class="product-info">
+                                    <div class="product-content">
+                                        <h1>Apple Watch 3</h1>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit ariatur</p>
+                                        <ul>
+                                            <li>Lorem ipsum dolor sit ametconsectetu.</li>
+                                            <li>adipisicing elit dlanditiis quis ip.</li>
+                                            <li>lorem sde glanditiis dars fao.</li>
+                                        </ul>
+                                        <div class="buttons">
+                                            <a class="button buy" href="#">Buy</a>
+                                            <a class="button add" href="#">Add to Cart</a>
+                                            <span class="button" id="price">$120,99</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </mat-card-content>
+    </div>
+</mat-card>

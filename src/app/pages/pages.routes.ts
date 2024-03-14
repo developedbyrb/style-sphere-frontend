@@ -40,6 +40,10 @@ export const routes: Routes = [
                 loadChildren: () => import('./components/cart-items/cart-items.routes').then(module => module.routes)
             },
             {
+                path: 'orders',
+                loadChildren: () => import('./components/orders/orders.routes').then(module => module.routes)
+            },
+            {
                 path: '***',
                 redirectTo: 'dashboard'
             }

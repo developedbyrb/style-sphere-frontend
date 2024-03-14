@@ -61,6 +61,11 @@ export class PagesComponent implements OnDestroy {
       link: "shops",
       icon: "storefront"
     },
+    {
+      name: "Orders",
+      link: "orders",
+      icon: "shopping_bag"
+    }
   ];
 
   private _mobileQueryListener: () => void;

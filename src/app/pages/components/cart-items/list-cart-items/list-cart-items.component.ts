@@ -1,4 +1,4 @@
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GraphqlService } from 'src/app/common/services/graphql/graphql.service';
 import { GET_CART_ITEMS, REMOVE_CART_ITEM, UPDATE_CART_ITEMS_QTY } from '../cart-items.graphql.schema';
@@ -10,9 +10,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule, NgModel } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { DialogComponent } from 'src/app/common/components/dialog/dialog.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-cart-items',
@@ -36,7 +37,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 export class ListCartItemsComponent implements OnInit {
   constructor(
     private graphqlService: GraphqlService,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private router: Router
   ) { }
 
   dataSource = new MatTableDataSource<any>();
@@ -126,5 +128,9 @@ export class ListCartItemsComponent implements OnInit {
           dialogRef.close();
         }
       });
+  }
+
+  checkout() {
+    this.router.navigate(['orders/create']);
   }
 }
